@@ -115,7 +115,6 @@ const isFormValid = computed(() => {
   return phone.value && selectedServices.value.length > 0;
 });
 
-// Отправка формы
 const submitForm = async () => {
   try {
     submitting.value = true;
@@ -123,36 +122,34 @@ const submitForm = async () => {
     if (!userId) throw new Error("Пользователь не авторизован");
 
     const response = await axios.post(
-  "https://cleaningdb.onrender.com/api/requests",
-  {
-    userId: localStorage.getItem("userId"),
-    phone: phone.value,
-    services: selectedServices.value,
-    totalPrice: totalPrice.value
-  },
-  { 
-    responseType: 'blob',
-    headers: {
-      'Content-Type': 'application/json',
-      'Accept': 'application/pdf'
-    }
-  }
-);
+      "https://cleaningdb.onrender.com/api/requests",
+      {
+        userId: localStorage.getItem("userId"),
+        phone: phone.value,
+        services: selectedServices.value,
+        totalPrice: totalPrice.value
+      },
+      {
+        responseType: 'blob', // Получаем данные как бинарный файл
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }
+    );
+
+    // Создание ссылки для скачивания PDF
+    const blob = new Blob([response.data], { type: 'application/pdf' });
+    const url = URL.createObjectURL(blob);
     
-    // Создаем ссылку для скачивания PDF
-    const url = window.URL.createObjectURL(new Blob([response.data]));
+    // Создание скрытой ссылки для скачивания
     const link = document.createElement('a');
     link.href = url;
-    link.setAttribute('download', `заявка_${Date.now()}.pdf`);
-    document.body.appendChild(link);
-    link.click();
-    link.remove();
-    
-    alert("Заявка успешно создана! Чек скачан автоматически.");
-    router.push("/");
+    link.download = 'заявка.pdf'; // Имя файла
+    link.click(); // Симулируем клик по ссылке для скачивания
+    URL.revokeObjectURL(url); // Освобождаем ресурс после скачивания
   } catch (error) {
-    console.error("Ошибка при отправке:", error);
-    alert(`Ошибка: ${error.response?.data?.error || error.message}`);
+    console.error('Ошибка при отправке формы:', error);
+    alert('Произошла ошибка при отправке заявки');
   } finally {
     submitting.value = false;
   }
