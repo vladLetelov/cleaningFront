@@ -46,7 +46,7 @@
         <v-row align="center">
           <v-col cols="12" md="6">
             <v-img
-              src="https://images.unsplash.com/photo-1582731594633-91ba861a4f1b"
+              src="https://sun9-63.userapi.com/s/v1/ig2/kBJBJmqoOvEcXcsHLcW0-p231h9rwG0KZXiDlpRPxKX5u7SzM8lD2GT5xl2baEOKqQXU0sxktuQ9BavzKuBBHaF1.jpg?quality=96&as=32x23,48x34,72x51,108x76,160x113,240x169,360x254,480x339,540x381,640x452,720x508,993x701&from=bu&u=ko8R-fyXzEet-B9fCbOuIteioXepDmHkPdgbtsGLve4&cs=993x701"
               height="300"
               class="rounded-lg"
             ></v-img>
