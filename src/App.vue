@@ -96,7 +96,7 @@ const login = async () => {
     loading.value = true;
     console.log("Trying to login with:", loginForm.value); // Логирование
 
-    const response = await fetch("http://localhost:3000/api/login", {
+    const response = await fetch("https://cleaningdb.onrender.com/api/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -135,7 +135,7 @@ const login = async () => {
 const register = async () => {
   try {
     loading.value = true;
-    const response = await fetch("http://localhost:3000/api/register", {
+    const response = await fetch("https://cleaningdb.onrender.com/api/register", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
