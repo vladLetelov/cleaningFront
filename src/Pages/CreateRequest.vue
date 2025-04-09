@@ -118,9 +118,7 @@ const isFormValid = computed(() => {
 const submitForm = async () => {
   try {
     submitting.value = true;
-    const userId = localStorage.getItem("userId");
-    if (!userId) throw new Error("Пользователь не авторизован");
-
+    
     const response = await axios.post(
       "https://cleaningdb.onrender.com/api/requests",
       {
@@ -130,23 +128,23 @@ const submitForm = async () => {
         totalPrice: totalPrice.value
       },
       {
-        responseType: 'blob', // Получаем данные как бинарный файл
-        headers: {
-          'Content-Type': 'application/json'
-        }
+        responseType: 'blob' // Указываем, что ожидаем бинарные данные
       }
     );
 
-    // Создание ссылки для скачивания PDF
-    const blob = new Blob([response.data], { type: 'application/pdf' });
-    const url = URL.createObjectURL(blob);
-    
-    // Создание скрытой ссылки для скачивания
+    // Создаем ссылку для скачивания
+    const url = window.URL.createObjectURL(new Blob([response.data]));
     const link = document.createElement('a');
     link.href = url;
-    link.download = 'заявка.pdf'; // Имя файла
-    link.click(); // Симулируем клик по ссылке для скачивания
-    URL.revokeObjectURL(url); // Освобождаем ресурс после скачивания
+    link.setAttribute('download', 'заявка.pdf');
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    
+    // Очищаем форму после успешной отправки
+    selectedServices.value = [];
+    phone.value = '';
+    
   } catch (error) {
     console.error('Ошибка при отправке формы:', error);
     alert('Произошла ошибка при отправке заявки');
