@@ -14,12 +14,6 @@ const router = createRouter({
       component: () => import("../Pages/AboutPage.vue")
     },
     {
-      path: "/info",
-      name: "info",
-      component: () => import("../components/Info.vue"),
-      meta: { requiresAuth: true, requiredRole: 'Администратор' }
-    },
-    {
       path: "/service",
       name: "service",
       component: () => import("../Pages/ServicesPage.vue"),
